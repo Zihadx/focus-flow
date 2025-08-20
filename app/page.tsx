@@ -32,7 +32,7 @@ export default function Page({ theme, toggleTheme }: DarkMoodProps) {
 
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 text-slate-900 dark:text-slate-200 overflow-hidden">
-      {/* Glow Elements */}
+      {/* Glow Elements -----------------*/}
       <div className="absolute top-[-150px] left-[-150px] w-[500px] h-[500px] bg-cyan-400/30 dark:bg-cyan-700/30 blur-[150px] rounded-full pointer-events-none" />
       <div className="absolute bottom-[-150px] right-[-150px] w-[500px] h-[500px] bg-cyan-500/40 dark:bg-cyan-600/40 blur-[150px] rounded-full pointer-events-none" />
 

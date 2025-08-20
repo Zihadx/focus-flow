@@ -1,13 +1,13 @@
 "use client";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import ProgressBar from "./ProgressBar";
-import { formatMinutes, todayKey } from "./utils/date";
+import {  todayKey } from "./utils/date";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import { Play, Pause, RotateCcw } from "lucide-react";
 
-const GOAL_MINUTES = 240; // 4 hours
-const GOAL_SECONDS = GOAL_MINUTES * 60; // Convert to seconds
-type SessionsMap = Record<string, number[]>; // date -> [session_seconds, ...]
+const GOAL_MINUTES = 240; 
+const GOAL_SECONDS = GOAL_MINUTES * 60;
+type SessionsMap = Record<string, number[]>;
 
 export default function Timer({ onDayMinutesChange }: { onDayMinutesChange?: (mins: number) => void }) {
   const [sessions, setSessions] = useLocalStorage<SessionsMap>("lt.sessions", {});
@@ -16,7 +16,7 @@ export default function Timer({ onDayMinutesChange }: { onDayMinutesChange?: (mi
   const [isRunning, setIsRunning] = useState(false);
   const [startTs, setStartTs] = useState<number | null>(null);
   const tickRef = useRef<number | null>(null);
-  const [liveElapsed, setLiveElapsed] = useState(0); // seconds
+  const [liveElapsed, setLiveElapsed] = useState(0);
 
   const todaySeconds = useMemo(() => {
     const total = (sessions[dateKey] ?? []).reduce((a, b) => a + b, 0);
@@ -135,7 +135,7 @@ export default function Timer({ onDayMinutesChange }: { onDayMinutesChange?: (mi
           )}
           <button
             onClick={resetToday}
-            className="rounded-xl border px-4 py-2 inline-flex items-center gap-2 hover:bg-slate-50"
+            className="rounded-xl border border-gray-500  px-4 py-2 inline-flex items-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
           >
             <RotateCcw className="h-4 w-4" /> Reset today
           </button>

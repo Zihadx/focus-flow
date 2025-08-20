@@ -19,8 +19,7 @@ export default function MotivationalTip({ show }: { show: boolean }) {
   useEffect(() => {
     const interval = setInterval(() => {
       setTipIndex((prev) => (prev + 1) % TIPS.length);
-    }, 5000); // change every 5 seconds
-
+    }, 5000); 
     return () => clearInterval(interval);
   }, []);
 
