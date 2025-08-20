@@ -12,14 +12,14 @@ export default function Notifications() {
   const [toasts, setToasts] = useState<Notice[]>([]);
 
   useEffect(() => {
-    // Hook into global window to trigger notifications anywhere without a library.
     if (typeof window === "undefined") return;
     (window as any).notify = (payload: Notice) => {
       setToasts((prev) => [...prev, payload]);
       setTimeout(() => {
         setToasts((prev) => prev.filter((t) => t.id !== payload.id));
       }, 3500);
-      // Also try native notifications if permitted
+
+      // Native notifications
       if ("Notification" in window && Notification.permission === "granted") {
         new Notification(payload.title, { body: payload.message });
       }
@@ -37,11 +37,16 @@ export default function Notifications() {
             key={t.id}
             initial={{ opacity: 0, y: 20, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 10 }}
-            className="card w-80 p-4 shadow-lg"
+            exit={{ opacity: 0, y: 10, scale: 0.98 }}
+            transition={{ duration: 0.35 }}
+            className="w-80 p-4 rounded-xl bg-white/30 dark:bg-slate-800/30 backdrop-blur-md border border-white/20 dark:border-slate-700 shadow-lg"
           >
-            <div className="font-semibold text-slate-900">{t.title}</div>
-            {t.message && <div className="text-sm text-slate-600 mt-1">{t.message}</div>}
+            <div className="font-semibold text-slate-900 dark:text-slate-100">{t.title}</div>
+            {t.message && (
+              <div className="text-sm text-slate-600 dark:text-slate-300 mt-1">
+                {t.message}
+              </div>
+            )}
           </motion.div>
         ))}
       </AnimatePresence>

@@ -27,10 +27,11 @@ export default function MotivationalTip({ show }: { show: boolean }) {
   if (!show) return null;
 
   return (
-    <div className="card p-5">
+   <div className="card p-5 bg-white/30 dark:bg-slate-800/30 backdrop-blur-md border border-white/20 dark:border-slate-700 rounded-xl shadow-md">
+
       <div className="flex items-center gap-3">
-        <div className="h-10 w-10 rounded-xl bg-yellow-50 border border-yellow-200 flex items-center justify-center">
-          <Lightbulb className="h-5 w-5 text-yellow-600" />
+        <div className="h-10 w-10 rounded-xl bg-yellow-50 border border-yellow-200 flex items-center justify-center dark:bg-yellow-700 dark:border-yellow-600">
+          <Lightbulb className="h-5 w-5 text-yellow-600 dark:text-yellow-50" />
         </div>
         <div>
           <div className="font-semibold">Motivation</div>
@@ -41,7 +42,7 @@ export default function MotivationalTip({ show }: { show: boolean }) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.5 }}
-              className="text-slate-700"
+              className="text-slate-700 dark:text-slate-300 text-sm"
             >
               {TIPS[tipIndex]}
             </motion.p>
