@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ring: theme(colors.brand.500);
+}
+
+* { scroll-behavior: smooth; }
+
+/* Fancy card */
+.card {
+  @apply rounded-2xl bg-white/80 backdrop-blur border border-white/60 shadow-soft;
+}
+
+.badge {
+  @apply inline-flex items-center rounded-full px-2 py-1 text-xs font-medium bg-slate-100 text-slate-700;
+}
