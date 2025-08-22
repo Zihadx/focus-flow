@@ -1,6 +1,5 @@
 "use client";
-import React, { useState } from "react";
-
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Moon, Sun } from "lucide-react";
 import { useLocalStorage } from "@/components/hooks/useLocalStorage";
@@ -13,21 +12,35 @@ import MotivationalTip from "@/components/MotivationalTip";
 
 const GOAL_MINUTES = 240;
 
-interface DarkMoodProps {
-  theme: "light" | "dark";
-  toggleTheme: () => void;
-}
-
-export default function Page({ theme, toggleTheme }: DarkMoodProps) {
+export default function Page() {
   const [todayMinutes, setTodayMinutes] = useState(0);
   const [sessions] = useLocalStorage<Record<string, number[]>>(
     "lt.sessions",
     {}
   );
+
+  // 👇 theme state saved in localStorage
+  const [theme, setTheme] = useLocalStorage<"light" | "dark">(
+    "lt.theme",
+    "light"
+  );
+
+  // Apply theme to <html> classList
+  useEffect(() => {
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
+
   const key = todayKey();
   const saved = (sessions[key] ?? []).reduce((a, b) => a + b, 0);
   const totalToday = Math.max(saved, todayMinutes);
-
   const behind = totalToday < GOAL_MINUTES / 2;
 
   return (
@@ -39,7 +52,7 @@ export default function Page({ theme, toggleTheme }: DarkMoodProps) {
       <main className="mx-auto max-w-6xl px-4 py-8 md:py-12">
         <Notifications />
 
-        <header className="mb-6 md:mb-10 flex items-center justify-between">
+        <header className="mb-6 md:mb-10 flex flex-col md:flex-row items-center justify-between">
           <div>
             <motion.h1
               initial={{ opacity: 0, y: 10 }}
@@ -49,25 +62,28 @@ export default function Page({ theme, toggleTheme }: DarkMoodProps) {
             >
               FocusFlow
             </motion.h1>
-            <p className="text-slate-600 dark:text-slate-300 mt-1">
+
+            <motion.p
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="text-slate-600 dark:text-slate-300 mt-1"
+            >
               Visualize your growth, manage tasks, and track learning hours in a
               minimal and responsive dashboard.
-            </p>
+            </motion.p>
           </div>
+
           <div>
-            {/* <button
-              className="h-7 px-2"
-              onClick={toggleTheme}
-              aria-label="Toggle theme"
-            >
-              {theme === "light" ? (
-                <Moon className="h-4 w-4" />
-              ) : (
-                <Sun className="h-4 w-4" />
-              )}
-            </button> */}
+            <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+            
+            className=" text-[12px] font-semibold px-3 py-1 rounded-3xl bg-cyan-500 text-white dark:bg-cyan-700 dark:text-gray-50 flex items-center backdrop-blur-lg">
+              Ready to scale
+            </motion.p>
           </div>
-          <div ><p className="badge bg-cyan-500 text-white dark:bg-cyan-800 dark:text-gray-50">Ready to scale</p></div>
         </header>
 
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -104,6 +120,14 @@ export default function Page({ theme, toggleTheme }: DarkMoodProps) {
           >
             <MotivationalTip show={behind} />
           </motion.div>
+          {/* THEME TOGGLE BUTTON */}
+          <motion.button
+            onClick={toggleTheme}
+            whileTap={{ scale: 0.9 }}
+            className="absolute top-5 right-10 md:top-10 md:left-2/3 p-2 rounded-md bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 hover:scale-110 transition h-8 w-8 flex items-center justify-center shadow-md hover:shadow-lg"
+          >
+            {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
+          </motion.button>
         </section>
 
         <footer className="mt-10 text-center text-sm text-slate-500 dark:text-slate-400">
